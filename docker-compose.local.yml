@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: portfolio-mysql-local
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: portfolio_db
+      MYSQL_USER: portfolio_user
+      MYSQL_PASSWORD: portfolio_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_local_data:/var/lib/mysql
+    networks:
+      - portfolio-local
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 40s
+
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio-backend-local
+    restart: unless-stopped
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/portfolio_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=portfolio_user
+      - SPRING_DATASOURCE_PASSWORD=portfolio_password
+      - SPRING_PROFILES_ACTIVE=dev
+      - JWT_SECRET=mySecretKey123456789012345678901234567890
+      - LOG_LEVEL=DEBUG
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:5173
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - portfolio-local
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  mysql_local_data:
+    driver: local
+
+networks:
+  portfolio-local:
+    driver: bridge
+
+# Commands to run:
+# 1. Start the services: docker-compose -f docker-compose.local.yml up --build -d
+# 2. Stop the services: docker-compose -f docker-compose.local.yml down
+# 3. View logs: docker-compose -f docker-compose.local.yml logs -f
+# 4. Access MySQL: docker exec -it portfolio-mysql-local mysql -u portfolio_user -p
+# 5. Access Backend API: http://localhost:8080/api/actuator/health
+# 6. Access MySQL Admin: http://localhost:3306 (use MySQL Workbench or similar tool)
+# 7. Access Backend Swagger UI:
+#    http://localhost:8080/swagger-ui.html (if Swagger is configured in your Spring Boot application)
+# 8. Remove the volumes: docker-compose -f docker-compose.local.yml down -v
