@@ -27,7 +27,7 @@ services:
   # Backend Service
   backend:
     build:
-      context: ./backend
+      context: ../backend
       dockerfile: Dockerfile
     container_name: portfolio-backend-local
     restart: unless-stopped
