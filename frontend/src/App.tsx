@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import Header from './components/Header'
+import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import About from './components/About'
 import Experience from './components/Experience'
@@ -43,15 +43,27 @@ const App: React.FC = () => {
     if (error) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-4">Error Loading Portfolio</h1>
-                    <p className="text-gray-600 mb-6">{error}</p>
-                    <button
-                        onClick={() => window.location.reload()}
-                        className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                <div className="text-center max-w-md mx-auto px-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="space-y-6"
                     >
-                        Retry
-                    </button>
+                        <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
+                            <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h1 className="text-2xl font-bold text-gray-900">Error Loading Portfolio</h1>
+                        <p className="text-gray-600">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                        >
+                            Retry
+                        </button>
+                    </motion.div>
                 </div>
             </div>
         )
@@ -59,52 +71,35 @@ const App: React.FC = () => {
 
     return (
         <ErrorBoundary>
-            <div className="min-h-screen bg-white">
-                <Header />
+            <div className="App">
+                {/* Navigation */}
+                <Navigation />
 
+                {/* Main Content */}
                 <main>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        {/* Hero Section */}
-                        <section id="home">
-                            <Hero portfolioData={portfolioData} />
-                        </section>
+                    {/* Hero Section */}
+                    <Hero portfolioData={portfolioData} />
 
-                        {/* About Section */}
-                        <section id="about">
-                            <About portfolioData={portfolioData} />
-                        </section>
+                    {/* About Section */}
+                    <About portfolioData={portfolioData} />
 
-                        {/* Experience Section */}
-                        <section id="experience">
-                            <Experience />
-                        </section>
+                    {/* Experience Section */}
+                    <Experience />
 
-                        {/* Projects Section */}
-                        <section id="projects">
-                            <Projects />
-                        </section>
+                    {/* Projects Section */}
+                    <Projects />
 
-                        {/* Skills Section */}
-                        <section id="skills">
-                            <Skills />
-                        </section>
+                    {/* Skills Section */}
+                    <Skills />
 
-                        {/* Education Section */}
-                        <section id="education">
-                            <Education />
-                        </section>
+                    {/* Education Section */}
+                    <Education />
 
-                        {/* Contact Section */}
-                        <section id="contact">
-                            <Contact />
-                        </section>
-                    </motion.div>
+                    {/* Contact Section */}
+                    <Contact />
                 </main>
 
+                {/* Footer */}
                 <Footer />
             </div>
         </ErrorBoundary>

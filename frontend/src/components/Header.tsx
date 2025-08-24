@@ -48,7 +48,7 @@ const Header: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <a href="#home">Debojit.dev</a>
+                        <a href="#home">Debojit's Portfolio</a>
                     </motion.div>
 
                     {/* Desktop Navigation */}

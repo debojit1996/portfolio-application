@@ -1,6 +1,14 @@
 -- Portfolio Application - Database Schema matching Entity Classes
 -- This file creates tables and inserts sample data matching the exact entity structure
 
+-- Drop tables before creating them so that re-deployment doesn't create duplicate data
+DROP TABLE IF EXISTS contact_messages;
+DROP TABLE IF EXISTS education;
+DROP TABLE IF EXISTS skills;
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS experience;
+DROP TABLE IF EXISTS users;
+
 -- Users table (matching User.java entity)
 CREATE TABLE IF NOT EXISTS users (
                                      user_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -189,7 +197,7 @@ VALUES
 
     (@user_id, 'Portfolio Management System',
      'Full-stack portfolio management application with backend REST APIs and modern frontend. Features include user management, project showcase, and contact management.',
-     'Java 21, Spring Boot 3.4, MySQL, Docker, React, TypeScript',
+     'Java 21, Spring Boot 3, MySQL, Docker, React, TypeScript',
      'https://github.com/debojit1996/portfolio-application',
      'https://portfolio.debojit.dev',
      '2025-08-15', NULL, NOW());
