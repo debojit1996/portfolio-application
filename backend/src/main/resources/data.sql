@@ -199,7 +199,7 @@ VALUES
      'Full-stack portfolio management application with backend REST APIs and modern frontend. Features include user management, project showcase, and contact management.',
      'Java 21, Spring Boot 3, MySQL, Docker, React, TypeScript',
      'https://github.com/debojit1996/portfolio-application',
-     'https://portfolio.debojit.dev',
+     'https://portfolio-application-ten.vercel.app/',
      '2025-08-15', NULL, NOW());
 
 -- FIXED: Insert contact message WITHOUT created_at (matching ContactMessage.java entity)
